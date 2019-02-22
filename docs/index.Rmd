@@ -1,0 +1,50 @@
+---
+output: html_document
+---
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(here)
+library(leaflet)
+library(sf)
+
+load(file = here("data", "allBarriers.rda"))
+
+leaflet(width = '100%', height = '450pt') %>% 
+  addProviderTiles(providers$CartoDB.Positron) %>% 
+  addAwesomeMarkers(
+    data = allBarriers, 
+    icon = awesomeIcons(
+      library = "ion",
+      icon = ifelse(
+        test = allBarriers$Status == "open",
+        yes = "ios-checkmark", 
+        no = ifelse(
+          test = allBarriers$Status == "closed",
+          yes = "ios-close",
+          no = ifelse(
+            test = allBarriers$Status == "developed" | allBarriers$Status == "redeveloped",
+            yes = "ios-close",
+            no = "ios-help"
+          )
+      )),
+      iconColor = "black",  # the icon's colour
+      markerColor = ifelse(
+        test = allBarriers$Status == "open",  
+        yes = "green",  
+        no = ifelse(
+          test = allBarriers$Status == "closed",
+          yes = "red", 
+          no =  ifelse(
+            test = allBarriers$Status == "developed" | allBarriers$Status == "redeveloped",
+            yes = "orange",
+            no = "lightgray"
+          )
+        ) 
+      )
+    ),
+    clusterOptions = markerClusterOptions(),
+    popup = paste("Barrier: ", allBarriers$BarrierID, "<br>",
+                  "Status: ", allBarriers$Status, "<br>",
+                  "Description: ", allBarriers$Descrip, "<br>")
+  )
+```
