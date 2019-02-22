@@ -1,3 +1,3 @@
-# EcometricsArson
+# barriers-map
 
-* All contents of this repo are also available through the project's [Open Science Framework repo](https://osf.io/p4yex/)
+* A bare leaflet map to support the Post-Dispatch's reporting on the [Street Not Thru project](https://chris-prener.github.io/barriers/)
